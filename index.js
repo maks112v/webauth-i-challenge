@@ -3,6 +3,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const db = require("./dbconfig");
+const restrictedRouter = require('./helpers/restrictedRouter')
 
 const server = express();
 
@@ -64,6 +65,8 @@ server.get('/api/users', restricted, (req, res) => {
     })
     .catch(err => res.send(err));
 });
+
+server.use('/api/restricted', restricted, restrictedRouter)
 
 const port = process.env.PORT || 5000;
 server.listen(port, () => console.log(`\n** Running on port ${port} **\n`));
